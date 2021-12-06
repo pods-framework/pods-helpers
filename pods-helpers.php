@@ -38,6 +38,11 @@ add_filter( 'pods_components_register', static function( $component_files ) {
 } );
 
 add_filter( 'pods_helper_allow_callbacks', static function( $allowed, $params ) {
+	// Only run if Pods Helpers is loaded.
+	if ( ! class_exists( 'Pods_Helpers' ) ) {
+		return $allowed;
+	}
+		
 	// Try and get the helper, then maybe add a filter.
 	if ( ! empty( $params['helper'] ) && ! is_callable( $params['helper'] ) ) {
 		add_filter( 'pods_helper_include_obj', '__return_true', 15 );
